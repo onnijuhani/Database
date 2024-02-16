@@ -16,10 +16,10 @@ for index, row in df.iterrows():
         kills, deaths = map(int, player_data.iloc[2].split(' - '))
         team_name = row["Joukkue1"]
         c.execute('''
-            INSERT INTO player_data (match_id, player_name, team_name, kills, deaths, kd_ratio, adr, fk_diff, rating) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO player_data (match_id, player_name, team_name, kills, deaths, kd_ratio, adr, fk_diff, rating, date) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (row['Match ID'], player_data.iloc[0], team_name, kills, deaths, float(player_data.iloc[3]), float(player_data.iloc[4]),
-              int(player_data.iloc[5]), float(player_data.iloc[6])))
+              int(player_data.iloc[5]), float(player_data.iloc[6]), row["Päiväys"] ) )
 
     # Pelaajatietojen lisääminen joukkueesta 2
     for player_num in range(1, 6):  # Joukkue 2:n pelaajat ovat sarakkeissa 59-93
@@ -29,10 +29,10 @@ for index, row in df.iterrows():
         kills, deaths = map(int, player_data.iloc[2].split(' - '))
         team_name = row["Joukkue2"]
         c.execute('''
-            INSERT INTO player_data (match_id, player_name, team_name, kills, deaths, kd_ratio, adr, fk_diff, rating) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO player_data (match_id, player_name, team_name, kills, deaths, kd_ratio, adr, fk_diff, rating, date) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (row['Match ID'], player_data.iloc[0], team_name, kills, deaths, float(player_data.iloc[3]), float(player_data.iloc[4]),
-              int(player_data.iloc[5]), float(player_data.iloc[6])))
+              int(player_data.iloc[5]), float(player_data.iloc[6]), row["Päiväys"] ) )
 
 # Muutosten tallennus ja yhteyden sulkeminen
 conn.commit()

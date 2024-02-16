@@ -3,7 +3,6 @@ import sqlite3
 conn = sqlite3.connect('my_practice_database.db')
 c = conn.cursor()
 
-c.execute('''DROP TABLE team_data''')
 
 c.execute('''CREATE TABLE IF NOT EXISTS team_data (
     id INTEGER PRIMARY KEY,
@@ -28,8 +27,6 @@ c.execute('''CREATE TABLE IF NOT EXISTS team_data (
 )''')
 
 
-c.execute('''DROP TABLE player_data''')
-
 c.execute('''CREATE TABLE IF NOT EXISTS player_data (
     match_id INTEGER,
     player_name TEXT,
@@ -40,6 +37,16 @@ c.execute('''CREATE TABLE IF NOT EXISTS player_data (
     adr REAL,
     fk_diff INTEGER,
     rating REAL,
+    player_id INTEGER,
+    date DATE,
     FOREIGN KEY (match_id) REFERENCES team_data (id)
   )''')
+
+
+c.execute('''CREATE TABLE IF NOT EXISTS players (
+    player_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_name TEXT NOT NULL,
+    Team TEXT
+  )''')
+
 
