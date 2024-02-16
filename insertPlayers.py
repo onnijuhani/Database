@@ -1,14 +1,12 @@
 import pandas as pd
 import sqlite3
 
-# Assuming your CSV file path is correct
 df = pd.read_csv('tilastot.csv')
 conn = sqlite3.connect('my_practice_database.db')
 c = conn.cursor()
 
 c.execute('DELETE FROM player_data')
 
-# Connect to the database
 for index, row in df.iterrows():
     # Pelaajatietojen lisääminen joukkueesta 1
     for player_num in range(1, 6):  # Joukkue 1:n pelaajat ovat sarakkeissa 23-57
