@@ -113,7 +113,45 @@ def add_new_player(db_file):
     conn.close()
 
 
+def update_player_team(db_file):
+    # Avaa tietokantayhteys
+    conn = sqlite3.connect(db_file)
+    c = conn.cursor()
+
+    c.execute('''UPDATE players SET Team = NULL;''')
+
+    # Haetaan pelaajat, joiden joukkueita ei ole päivitetty
+    c.execute('''
+        SELECT DISTINCT player_name
+        FROM players
+        WHERE Team IS NULL
+    ''')
+    players_without_team = c.fetchall()
+
+    for player_name, in players_without_team:
+        # Etsitään pelaajan viimeisin joukkue player_data-taulukosta päiväyksen perusteella
+        c.execute('''
+            SELECT team_name
+            FROM player_data
+            WHERE player_name = ?
+            ORDER BY date DESC
+            LIMIT 1
+        ''', (player_name,))
+        team_result = c.fetchone()
+        if team_result:
+            team_name = team_result[0]
+            c.execute('''
+                UPDATE players
+                SET Team = ?
+                WHERE player_name = ?
+            ''', (team_name, player_name))
+
+    conn.commit()
+    conn.close()
+
+    print("Pelaajien joukkueet päivitetty onnistuneesti")
+
+
 if __name__ == "__main__":
     db_file = 'my_practice_database.db'  # Tietokantatiedoston nimi
-    insert_players_from_database(db_file)
-    add_player_id_to_player_data(db_file)
+    update_player_team(db_file)

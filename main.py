@@ -46,7 +46,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS player_data (
 c.execute('''CREATE TABLE IF NOT EXISTS players (
     player_id INTEGER PRIMARY KEY AUTOINCREMENT,
     player_name TEXT NOT NULL,
-    Team TEXT
+    team TEXT
   )''')
 
 
